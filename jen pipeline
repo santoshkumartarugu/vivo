@@ -1,0 +1,47 @@
+pipeline {
+    agent 'any'
+    stages {
+        stage('git-clone') {
+            steps {
+                sh '''
+                rm -rf vivo
+                pwd
+                ls -a -ll
+                git clone https://github.com/santoshkumartarugu/vivo.git
+                ls -ll
+                '''
+            }
+        }
+        stage('compile') {
+            steps {
+                sh '''
+                pwd
+                cd vivo
+                ls -ll
+                mvn clean
+                mvn compile
+                '''
+            }
+        }
+                stage('unit-test') {
+            steps {
+                sh '''
+                pwd
+                cd vivo
+                ls -ll
+                mvn test
+                '''
+            }
+        }
+                stage('package') {
+            steps {
+                sh '''
+                pwd
+                ls -ll
+                cd vivo
+                mvn package
+                '''
+            }
+        }
+    }
+}
